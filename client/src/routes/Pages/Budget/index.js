@@ -38,7 +38,7 @@ const Budget = () => {
                     <Text fontSize={'xl'} fontWeight={500}>Weekly</Text>
                 </Stack>
             </Stack>
-            <SimpleGrid columns={[1, null, 2]} spacingX="6" spacingY="0">
+            <SimpleGrid columns={[1, 1, 2, 2, 2]} spacingX="6" spacingY="0" mb='6'>
                     <Box>
                         <Overview />
                         <Chart />

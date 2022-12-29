@@ -233,7 +233,7 @@ const Overview = () => {
                 </ModalBody>
                 </ModalContent>
             </Modal>
-            <SimpleGrid columns={[1, null, 2]} spacingX="6" spacingY="0">
+            <SimpleGrid columns={[1, null, 2]} spacingX="6" spacingY="0" mb='6'>
                     <Box>
                         <Balance/>
                     </Box>

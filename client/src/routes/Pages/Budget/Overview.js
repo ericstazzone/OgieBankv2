@@ -28,8 +28,7 @@ const Overview = () => {
 
     return (
         <Box
-            marginTop={{ base: '1', sm: '5' }}
-            marginBottom={{ base: '3', sm: '3' }}
+            marginTop={5}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
             justifyContent="space-between"
