@@ -185,34 +185,6 @@ const Overview = () => {
                                         <FormErrorMessage>{errors.amount}</FormErrorMessage>
                                     </FormControl>
                                 </HStack>
-                                {/* <FormControl isInvalid={!!errors.date}>
-                                    <FormLabel my={1} htmlFor="date">Date</FormLabel>
-                                    <Field
-                                        as={Input}
-                                        id="date"
-                                        key={'date'}
-                                        name="date"
-                                        type="text"
-                                        variant="filled"
-                                        placeholder={startDateFormat}
-                                        validate={(value) => {
-                                            let error;
-                                            let splitSearchTerm = value.split("/");
-                                            let year = splitSearchTerm[2];
-                                            if (!value || typeof value != 'string' || value.trim().length === 0 || Number(year) < 2000){
-                                                error = "Invalid Date (format: mm/dd/yyyy)";
-                                                return error;
-                                            }
-                                            try {
-                                                validation.checkValidDate(value);
-                                            } catch {
-                                                error = "Invalid Date (format: mm/dd/yyyy)";
-                                            }
-                                            return error;
-                                        }}
-                                    />
-                                    <FormErrorMessage>{errors.date}</FormErrorMessage>
-                                </FormControl> */}
                                 <FormLabel my={1} htmlFor="date">Date</FormLabel>
                                 <DatePicker
                                     selected={calendar}
@@ -259,6 +231,7 @@ const Overview = () => {
                         <Shortlist/>
                     </Box>
             </SimpleGrid>
+            
         </Container>
     )
 }

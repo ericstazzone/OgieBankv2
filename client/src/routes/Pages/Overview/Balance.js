@@ -37,7 +37,7 @@ const Balance = () => {
 
     return (
         <Box
-            marginTop={{ base: '1', sm: '6' }}
+            marginTop={6}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
             justifyContent="space-between"
