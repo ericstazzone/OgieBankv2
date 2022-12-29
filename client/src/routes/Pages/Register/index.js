@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { 
-    Link, 
-    Heading, 
-    Box, 
+    Heading,
     Container,
     FormControl, 
     FormLabel, 
@@ -12,7 +10,8 @@ import {
     Alert, 
     AlertIcon, 
     HStack,
-    Text 
+    Text,
+    useColorModeValue,
 } from '@chakra-ui/react'
 import { Link as RouterLinks, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -84,7 +83,7 @@ const Register = () => {
     }
     return (
         <Container>
-            <Heading as='h1'>Register</Heading>
+            <Heading as='h1' mb='3'>Register</Heading>
             {registerSuccessful && (
                 <Alert status='success'>
                     <AlertIcon/>
@@ -99,7 +98,7 @@ const Register = () => {
             )}
             <form onSubmit={handleSubmit}>
                 <FormControl isRequired>
-                    <Stack>
+                    <Stack boxShadow={'2xl'} rounded={'md'} bg={useColorModeValue('gray.50', 'gray.900')} px='6' py='6'>
                         <HStack>
                             <Stack>
                                 <FormLabel id='labelForFirstName' htmlFor='firstname' fontSize={'2xl'}>First Name</FormLabel>
@@ -125,7 +124,7 @@ const Register = () => {
                             </Stack>
                         </HStack>
                         <HStack>
-                            <Button type='submit' isLoading={loading}>Sign Up</Button>
+                            <Button mt='3' bg='black' color='white' type='submit' isLoading={loading}>Sign Up</Button>
                             {/* <Link as={RouterLinks} to='/login'>
                                 Log In!
                             </Link> */}

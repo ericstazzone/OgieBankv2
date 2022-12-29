@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { 
-    Button,
     Input, 
-    HStack,
     Text,
     FormControl,
     FormLabel,
     ButtonGroup,
     IconButton,
-    Icon
+    Flex,
+    Spacer,
 } from "@chakra-ui/react";
 
 import { 
@@ -38,8 +37,8 @@ const CustomEditable = ({ label, type, value, onChange, onSubmit, onCancel }) =>
             }
         }>
             <FormControl>
-                <HStack spacing={4}>
-                    <FormLabel mt={isEditing ? 0 : 2} id={`${label}-label`} htmlFor={label}>{label}</FormLabel>
+                <FormLabel mt={1} id={`${label}-label`} htmlFor={label} fontWeight={'bold'}>{label}</FormLabel>
+                <Flex>
                     {
                         isEditing ?
                         (
@@ -50,12 +49,13 @@ const CustomEditable = ({ label, type, value, onChange, onSubmit, onCancel }) =>
                                     value={value} 
                                     onChange={onChange}  
                                     color='gray.600'
-                                />  
+                                />
+                                <Spacer />
                                 <ButtonGroup>
                                     <label htmlFor={`${label}-CheckIcon`}></label>
-                                    <IconButton icon={<CheckIcon />} type='submit' id={`${label}-CheckIcon`}/>
+                                    <IconButton bg='black' icon={<CheckIcon color="white"/>} type='submit' id={`${label}-CheckIcon`}/>
                                     <label htmlFor={`${label}-closeIcon`}></label>
-                                    <IconButton icon={<CloseIcon />} type='button' onClick={cancelEditing} id={`${label}-closeIcon`}/>
+                                    <IconButton bg='black' icon={<CloseIcon color="white"/>} type='button' onClick={cancelEditing} id={`${label}-closeIcon`}/>
                                 </ButtonGroup>                              
                             </>
                             
@@ -65,19 +65,20 @@ const CustomEditable = ({ label, type, value, onChange, onSubmit, onCancel }) =>
                             <>
                                 {
                                     typeof(value) === 'string' &&
-                                    <Text>{value.trim() ? value.trim() : 'Please fill this out'}</Text>    
+                                    <Text>{value.trim() ? value.trim() : 'Unassigned Name'}</Text>    
                                 }
                                 {
                                     typeof(value) === 'number' &&
-                                    <Text>{value ? value : 'Please fill this out unless it actually is 0...'}</Text>
+                                    <Text>{value ? value : 'Unassigned Number'}</Text>
                                 }
+                                <Spacer />
                                 <label htmlFor={`${label}-EditIcon`}></label>
-                                <IconButton icon={<EditIcon />} type='button' onClick={startEditing} id={`${label}-EditIcon`}/>
+                                <IconButton bg='black' icon={<EditIcon color="white"/>} type='button' onClick={startEditing} id={`${label}-EditIcon`}/>
                             </>
 
                         )
                     }
-                </HStack>
+                </Flex>
             </FormControl>
         </form>
         

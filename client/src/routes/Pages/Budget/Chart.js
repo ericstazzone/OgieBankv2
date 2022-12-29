@@ -6,13 +6,10 @@ import ReactApexChart from "react-apexcharts";
 import { 
     Box,
     Text,
-    SimpleGrid, 
     Flex,
-    Spacer,
-    Divider,
 } from '@chakra-ui/react'
 
-const Debt = () => {   
+const Chart = () => {   
     const [categoryTotal, setCategoryTotal] = useState(0)
     const [categorySeries, setCategorySeries] = useState([])
     const [categoryLabels, setCategoryLabels] = useState([])
@@ -144,33 +141,30 @@ const Debt = () => {
             height='auto'>
             <Box
                 w={'full'}
-                bg={'white'}
                 boxShadow={'2xl'}
                 rounded={'md'}
                 overflow={'hidden'}>
-                <SimpleGrid columns={[1]} spacingX="0" spacingY="0">
-                    <Flex minWidth='max-content' alignItems='center' gap='2'>
-                        <Text px='6' py='2' fontSize={'3xl'} fontWeight={800}>
-                                Spending Summary
-                        </Text>
-                        <Spacer />
-                    </Flex>
-                </SimpleGrid>
-                <Divider/>
-                {categoryOptions.labels.length === 0 ? 
-                    <Text fontSize={'l'} fontWeight={800} textAlign={'center'} marginTop={'5'}>
-                        Need transactions from two different categories to display a graph
-                    </Text> :
-                    <ReactApexChart 
-                        options={categoryOptions} 
-                        series={categorySeries} 
-                        type="donut" 
-                        width="100%"
-                    />
-                }
+                <Flex bg='white' minWidth='max-content' alignItems='center' gap='2'>
+                    <Text px='6' py='2' fontSize={'3xl'} fontWeight={800}>
+                        Distribution
+                    </Text>
+                </Flex>
+                <Box bg={'rgba(256, 256, 256, .85)'} px={6} py={10}>
+                    {categoryOptions.labels.length === 0 ? 
+                        <Text fontSize={'l'} fontWeight={800} textAlign={'center'}>
+                            We need two categories to display graph...
+                        </Text> :
+                        <ReactApexChart 
+                            options={categoryOptions} 
+                            series={categorySeries} 
+                            type="donut" 
+                            width="100%"
+                        />
+                    }
+                </Box>
             </Box>
         </Box>
     )
 }
 
-export default Debt;
+export default Chart;

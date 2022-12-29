@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { 
-    Link, 
     Heading, 
-    Box, 
     Container,
     FormControl, 
     FormLabel, 
@@ -12,7 +10,8 @@ import {
     HStack,
     Alert, 
     AlertIcon,
-    Text
+    Text,
+    useColorModeValue,
 } from '@chakra-ui/react'
 import {
     FcGoogle
@@ -95,7 +94,7 @@ const Login = () => {
 
     return (
         <Container>
-            <Heading as='h1'>Log In</Heading>
+            <Heading as='h1' mb='3'>Log In</Heading>
             {loginSuccessful && (
                 <Alert status='success'>
                     <AlertIcon/>
@@ -110,13 +109,13 @@ const Login = () => {
             )}
             <form onSubmit={handleSubmit}>
                 <FormControl isRequired>
-                    <Stack>
+                    <Stack boxShadow={'2xl'} rounded={'md'} bg={useColorModeValue('gray.50', 'gray.900')} px='6' py='6'>
                         <FormLabel id='labelForEmail' htmlFor='email' fontSize={'2xl'}>Email</FormLabel>
                         <Input type='email' value={email} onChange={handleEmail} placeholder='Enter Email' id='email'/>
                         <FormLabel id='labelForPassword' htmlFor='password' fontSize={'2xl'}>Password</FormLabel>
                         <Input type='password' value={password} onChange={handlePassword} placeholder='Enter Password' id='password'/>
                         <HStack>
-                            <Button type='submit' isLoading={loading}>Sign In</Button>
+                            <Button bg='black' color='white' mt='3' type='submit' isLoading={loading}>Sign In</Button>
                             {/* <Link as={RouterLinks} to='/register'>
                                 Register
                             </Link> */}
@@ -125,9 +124,11 @@ const Login = () => {
                 </FormControl>
             </form>
             <Button
+                boxShadow={'2xl'} rounded={'md'}
                 onClick={() => socialSignOn('google')}
                 leftIcon={<FcGoogle/>}
                 isLoading={loading}
+                mt='3'
             >
                 Google Sign In
             </Button>

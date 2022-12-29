@@ -7,7 +7,7 @@ import { VStack } from '@chakra-ui/react';
 const App = () => {
   return (
     <Router>
-      <VStack>
+      <VStack overflow="scroll" height="100vh">
         <Nav />
         <AllRoutes />
       </VStack>

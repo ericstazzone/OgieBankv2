@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import { 
     Box,
     Text,
-    SimpleGrid,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -21,7 +20,6 @@ import {
     ListItem, 
     Divider,
     Flex,
-    Spacer,
 } from '@chakra-ui/react'
 import { Formik, Field } from "formik";
 import {v4 as uuid} from 'uuid';
@@ -79,26 +77,22 @@ const Expenses = () => {
     return (
         <Box
             marginTop={{ base: '1', sm: '5' }}
+            marginBottom={{ base: '3', sm: '3' }}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
             justifyContent="space-between"
             height='auto'>
             <Box
                 w={'full'}
-                bg={'white'}
                 boxShadow={'2xl'}
                 rounded={'md'}
                 overflow={'hidden'}>
-                <SimpleGrid columns={[1]} spacingX="0" spacingY="0">
-                <Flex minWidth='max-content' alignItems='center' gap='2'>
-                        <Text px='6' py='2' fontSize={'3xl'} fontWeight={800}>
-                            Monthly Expenses
-                        </Text>
-                        <Spacer />
-                    </Flex>
-                </SimpleGrid>
-                <Divider/>
-                <Box bg={'white'} px={6} py={10}>
+                <Flex bg='white' minWidth='max-content' alignItems='center' gap='2'>
+                    <Text px='6' py='2' fontSize={'3xl'} fontWeight={800}>
+                        Expenses
+                    </Text>
+                </Flex>
+                <Box bg={'rgba(256, 256, 256, .85)'} px={6} py={10}>
                     <List spacing={3}>
                     {expenses.map((e) => {
                         return (
@@ -197,7 +191,7 @@ const Expenses = () => {
                                             </FormControl>
                                         </HStack>
                                         <ModalFooter>
-                                            <Button bg={'black'} color={'white'} rounded={'xl'} boxShadow={'0 5px 20px 0px black / 43%)'}mx={'auto'} type='submit'>
+                                            <Button bg={'black'} color={'white'} rounded={'md'} boxShadow={'0 5px 20px 0px black / 43%)'}mx={'auto'} type='submit'>
                                                 Add
                                             </Button>
                                         </ModalFooter>
@@ -209,12 +203,12 @@ const Expenses = () => {
                     </Modal>
                     <Button
                         onClick={onOpen}
-                        mt={10}
+                        mt={6}
                         mx="25%"
                         w={'50%'}
                         bg={'black'}
                         color={'white'}
-                        rounded={'xl'}
+                        rounded={'md'}
                         boxShadow={'0 5px 20px 0px black / 43%)'}
                         _hover={{
                         bg: 'black',

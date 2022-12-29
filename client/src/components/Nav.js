@@ -25,11 +25,15 @@ const Nav = (props) => {
         }
     }
 
+    const handleLogin = async (e) => {
+        navigate('/login');
+    }
+
     return (
         <NavBarContainer {...props}>
-            <MenuItem to="/"><Text fontSize='xl' as='b'>Ogie Bank</Text></MenuItem>
+            {isAuth ? <MenuItem to="/overview"><Text fontSize='xl' as='b'>Ogie Bank</Text></MenuItem> : <MenuItem to="/login"><Text fontSize='xl' as='b'>Ogie Bank</Text></MenuItem>}
             <MenuToggle toggle={toggle} isOpen={isOpen} />
-            <MenuLinks isOpen={isOpen} loading={loading} handleLogout={handleLogout} isAuth={isAuth}/>
+            <MenuLinks isOpen={isOpen} loading={loading} handleLogout={handleLogout} handleLogin={handleLogin} isAuth={isAuth}/>
         </NavBarContainer>
     );
 };
@@ -70,34 +74,40 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
     );
 };
 
-const MenuLinks = ({ isOpen, loading, handleLogout, isAuth }) => {
+const MenuLinks = ({ isOpen, loading, handleLogout, handleLogin, isAuth }) => {
     return (
         <Box
         display={{ base: isOpen ? "block" : "none", md: "block" }}
         flexBasis={{ base: "100%", md: "auto" }}
         >
             <Stack
-                spacing={8}
+                spacing={[3,3,8,8,8]}
                 align="center"
-                justify={["center", "space-between", "flex-end", "flex-end"]}
-                direction={["column", "row", "row", "row"]}
-                pt={[4, 4, 0, 0]}
+                justify={["center", "center", "flex-end", "flex-end", "flex-end"]}
+                direction={["column", "column", "row", "row", "row"]}
+                pt={[4, 4, 0]}
             >
                 { isAuth ? null : <MenuItem to="/register">Register</MenuItem>}
                 { isAuth ? <MenuItem to="/overview">Overview</MenuItem> : null }
                 { isAuth ? <MenuItem to="/budget">Budget</MenuItem> : null }
                 { isAuth ? <MenuItem to="/transactions">Transactions</MenuItem> : null }
-                { isAuth ? <MenuItem to="/debt">Debt Breakdown</MenuItem> : null}
                 { isAuth ? <MenuItem to="/settings">Settings</MenuItem> : null }
                 { isAuth ? (
                     <Button
                         isLoading={loading}
                         onClick={() => handleLogout()}
+                        bg='black'
+                        color='white'
                     >
                         Logout
                     </Button>
                 ) : (                    
-                    <MenuItem to="/login">Login</MenuItem>                    
+                    <Button
+                        onClick = {() => handleLogin()}
+                        bg='black'
+                        color='white'
+                    >Login
+                    </Button>          
                 ) }
             </Stack>
         </Box>
@@ -112,7 +122,8 @@ const NavBarContainer = ({ children, ...props }) => {
       justify="space-between"
       wrap="wrap"
       w="100%"
-      p={8}
+      py={8}
+      px={[3,3,8,8,8]}
       bg={["primary.500", "primary.500", "transparent", "transparent"]}
       color={["black", "black", "primary.700", "primary.700"]}
       {...props}

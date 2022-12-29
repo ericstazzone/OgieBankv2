@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import { 
     Box,
     Text,
-    SimpleGrid,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -86,26 +85,23 @@ const Spending = () => {
     return (
         <Box
             marginTop={{ base: '1', sm: '5' }}
+            marginBottom={{ base: '3', sm: '3' }}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
             justifyContent="space-between"
             height='auto'>
             <Box
                 w={'full'}
-                bg={'white'}
                 boxShadow={'2xl'}
                 rounded={'md'}
                 overflow={'hidden'}>
-                <SimpleGrid columns={[1]} spacingX="0" spacingY="0">
-                    <Flex minWidth='max-content' alignItems='center' gap='2'>
-                        <Text px='6' py='2' fontSize={'3xl'} fontWeight={800}>
-                            Spending Categories
-                        </Text>
-                        <Spacer />
-                    </Flex>
-                </SimpleGrid>
-                <Divider/>
-                <Box bg={'white'} px={6} py={10}>
+                <Flex bg='white' minWidth='max-content' alignItems='center' gap='2'>
+                    <Text px='6' py='2' fontSize={'3xl'} fontWeight={800}>
+                        Spending
+                    </Text>
+                    <Spacer />
+                </Flex>
+                <Box bg={'rgba(256, 256, 256, .85)'} px={6} py={10}>
                     <List spacing={3}>
                     {spending.map((s) => {
                         return (
@@ -120,9 +116,10 @@ const Spending = () => {
                                             width={'25%'}
                                             ml={0}
                                             mr={3}
+                                            bg='black'
                                             onClick={() => deleteSpending(s.id, s.isExpense)}
                                         >
-                                            <MinusIcon />
+                                            <MinusIcon color='white'/>
                                         </Button>
                                         {s.name}
                                     </Box>
@@ -138,14 +135,14 @@ const Spending = () => {
                                     height="20px"
                                     mx="25%"
                                     my="2"
-                                    bg="gray.200"
-                                    borderRadius="lg"
+                                    bg='#f2f0f0'
+                                    borderRadius="md"
                                     >
                                     <Flex
                                         // width can be up to 100% based on the balance, if it is 100% then change the color to red
                                         width={barWidth(s.balance, s.amount) + "%"}
                                         height="20px"
-                                        borderRadius="lg"
+                                        borderRadius="md"
                                         bg={barWidth(s.balance, s.amount) === 100 ? "red.500" : "green.500"}
                                         />
                                 </Flex>
@@ -220,7 +217,7 @@ const Spending = () => {
                                             </FormControl>
                                         </HStack>
                                         <ModalFooter>
-                                            <Button bg={'black'} color={'white'} rounded={'xl'} boxShadow={'0 5px 20px 0px black / 43%)'}mx={'auto'} type='submit'>
+                                            <Button bg={'black'} color={'white'} rounded={'md'} boxShadow={'0 5px 20px 0px black / 43%)'}mx={'auto'} type='submit'>
                                                 Add
                                             </Button>
                                         </ModalFooter>
@@ -232,12 +229,12 @@ const Spending = () => {
                     </Modal>
                     <Button
                         onClick={onOpen}
-                        mt={10}
+                        mt={6}
                         mx="25%"
                         w={'50%'}
                         bg={'black'}
                         color={'white'}
-                        rounded={'xl'}
+                        rounded={'md'}
                         boxShadow={'0 5px 20px 0px black / 43%)'}
                         _hover={{
                         bg: 'black',

@@ -2,13 +2,13 @@ import React from "react";
 import { 
     Box,
     Text,
-    Stack,
     List,
     ListItem,
     ListIcon,
     Button,
-    SimpleGrid, 
-    Center,
+    Flex,
+    Spacer,
+    Divider
 } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom'
@@ -27,6 +27,7 @@ const Balance = () => {
     const monthRecurring = validation.getRounded(userData.budget.monthRecurring);
     const monthVariable = validation.getRounded(userData.budget.monthVariable);
     const remaining = validation.getRounded(monthIncome - monthRecurring - monthVariable);
+    const bankBalanceCredit = validation.getRounded(bankBalance - creditBalance);
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -36,25 +37,18 @@ const Balance = () => {
 
     return (
         <Box
-            marginTop={{ base: '1', sm: '5' }}
+            marginTop={{ base: '1', sm: '6' }}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
             justifyContent="space-between"
-            w={'full'}
-            >
+            height='auto'>
             <Box
                 w={'full'}
-                bg={'#86cf9d'} //adjust header color here
                 boxShadow={'2xl'}
                 rounded={'md'}
                 overflow={'hidden'}>
-                <SimpleGrid columns={[1, null, 2]} spacingX="0" spacingY="0">
-                    <Stack
-                        textAlign={'center'}
-                        px={6}
-                        py={2}
-                        color={'black'}
-                        align={'center'}>
+                <Box px={6} py={[4,4,6,6,6]} bg='white'>
+                    <Flex minWidth='max-content' align='center' gap='2' mb={[1,1,3,3,3]}>
                         <Text
                             fontSize={'sm'}
                             fontWeight={500}
@@ -65,19 +59,14 @@ const Balance = () => {
                             rounded={'full'}>
                             {bankName}
                         </Text>
-                        <Stack direction={'row'} align={'center'} justify={'center'}>
-                            <Text fontSize={'xl'}>$</Text>
-                            <Text fontSize={'3xl'} fontWeight={800}>
-                                {bankBalance}
-                            </Text>
-                        </Stack>
-                    </Stack>
-                    <Stack
-                        textAlign={'center'}
-                        px={6}
-                        py={2}
-                        color={'black'}
-                        align={'center'}>
+                        <Spacer />
+                        <Text fontSize={'md'}>$</Text>
+                        <Text fontSize={'xl'} fontWeight={800}>
+                            {bankBalance}
+                        </Text>
+                        <Text color={'black'}>/ {bankBalanceCredit}</Text>
+                    </Flex>
+                    <Flex bg='white' minWidth='max-content' align='center' gap='2'>
                         <Text
                             fontSize={'sm'}
                             fontWeight={500}
@@ -88,37 +77,59 @@ const Balance = () => {
                             rounded={'full'}>
                             {creditName}
                         </Text>
-                        <Stack direction={'row'} align={'center'} justify={'center'}>
-                            <Text fontSize={'xl'}>$</Text>
-                            <Text fontSize={'3xl'} fontWeight={800}>
-                                {creditBalance}
-                            </Text>
-                            <Text color={'black'}>/ {creditLimit}</Text>
-                        </Stack>
-                    </Stack>
-                </SimpleGrid>
-                <Box bg={'white'} px={6} py={10}>
-                    <Center>
+                        <Spacer />
+                        <Text fontSize={'md'}>$</Text>
+                        <Text fontSize={'xl'} fontWeight={800}>
+                            {creditBalance}
+                        </Text>
+                        <Text color={'black'}>/ {creditLimit}</Text>
+                    </Flex>
+                </Box>
+                <Box bg={'rgba(256, 256, 256, .85)'} px={6} py={10}>
                     <List spacing={3}>
-                            <ListItem>
+                        <ListItem>
+                            <Flex>
                                 <Text fontSize={'xl'} fontWeight={800}>
-                                    Saved in {monthNames[d.getMonth()]}: ${remaining}
+                                 {monthNames[d.getMonth()]}'s Savings:
                                 </Text>
-                            </ListItem>
-                            <ListItem>
+                                <Spacer/>
+                                <Text fontSize={'xl'} fontWeight={800}>
+                                    ${remaining}
+                                </Text>
+                            </Flex>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem>
+                            <Flex align='center'>
                                 <ListIcon as={TriangleUpIcon} color="green.400" />
-                                Income: ${monthIncome}
-                            </ListItem>
-                            <ListItem>
+                                Income: 
+                                <Spacer/>
+                                <Text fontWeight={800}>
+                                    ${monthIncome}
+                                </Text>
+                            </Flex>
+                        </ListItem>
+                        <ListItem>
+                            <Flex align='center'>
                                 <ListIcon as={TriangleDownIcon} color="red.400" />
-                                Expenses: ${monthRecurring}
-                            </ListItem>
-                            <ListItem>
+                                Expenses: 
+                                <Spacer/>
+                                <Text fontWeight={800}>
+                                    ${monthRecurring}
+                                </Text>
+                            </Flex>
+                        </ListItem>
+                        <ListItem>
+                            <Flex align='center'>
                                 <ListIcon as={TriangleDownIcon} color="red.400" />
-                                Spending: ${monthVariable}
-                            </ListItem>
-                        </List>
-                    </Center>
+                                Spending:
+                                <Spacer/>
+                                <Text fontWeight={800}>
+                                    ${monthVariable}
+                                </Text>
+                            </Flex>
+                        </ListItem>
+                    </List>
                     <Button
                         onClick = {() => navigate('/budget')}
                         mt={10}
@@ -126,7 +137,7 @@ const Balance = () => {
                         w={'50%'}
                         bg={'black'}
                         color={'white'}
-                        rounded={'xl'}
+                        rounded={'md'}
                         boxShadow={'0 5px 20px 0px black / 43%)'}
                         _hover={{
                         bg: 'black',
