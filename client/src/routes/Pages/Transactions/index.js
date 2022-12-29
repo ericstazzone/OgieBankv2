@@ -135,7 +135,7 @@ const Transactions = (props) => {
             <Heading as="h1">Transactions</Heading>
         </Stack>
         <Box
-        marginTop={{ base: '1', sm: '6' }}
+        marginTop={6}
         marginBottom={{ base: '6', sm: '6' }}
         display="flex"
         flexDirection={{ base: 'column', sm: 'row' }}

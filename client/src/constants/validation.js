@@ -137,6 +137,10 @@ async function checkName(name, parameter) {
     return name
 }
 
+async function checkPayFrequency(value){
+    return value;
+}
+
 const validation = {
     checkId,
     checkString,
@@ -152,7 +156,8 @@ const validation = {
     checkValidDate,
     leapYear,
     confirmPassword,
-    checkName
+    checkName,
+    checkPayFrequency,
 }
 
 export default validation;

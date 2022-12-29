@@ -20,40 +20,43 @@ import {
     ListItem, 
     Divider,
     Flex,
-    Spacer,
 } from '@chakra-ui/react'
 import { Formik, Field } from "formik";
 import {v4 as uuid} from 'uuid';
 import { useDispatch, useSelector} from 'react-redux';
 import actions from '../../../redux/actions/categories'
+import actions2 from '../../../redux/actions/auth'
 import { MinusIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 
-const Spending = () => {
+const WExpenses = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
 
     const sendValues = async (values) => {
         values.id = uuid();
-        values.isExpense = false;
+        values.isExpense = true;
         const reqBody = values;
         dispatch(actions.addCategory(reqBody));
+        dispatch(actions2.addCategoryExpenseUser(values.amount));
         await axios.post('/api/calculations/addcategory', reqBody);
+
         onClose();
     }
 
-    const deleteSpending = async (id, isExpense) => {
+    const deleteExpense = async (id, amount, isExpense) => {
+        dispatch(actions.deleteCategory(id, isExpense));
+        dispatch(actions2.deleteCategoryExpenseUser(amount));
         const reqBody = {
             id: id,
-            amount: 1,
+            amount: amount,
             isExpense: isExpense,
         };
-        dispatch(actions.deleteCategory(id, isExpense));
         await axios.post('/api/calculations/deletecategory', reqBody);
     }
 
-    const spending = useSelector((state) => state.categories.categories.spending);
     const expenses = useSelector((state) => state.categories.categories.expenses);
+    const spending = useSelector((state) => state.categories.categories.spending);
 
     const getData = async (reqBody) => {
         const { data } = await axios.get('/api/calculations/getAllCategories')
@@ -71,20 +74,9 @@ const Spending = () => {
         return false; 
     }
 
-    const barWidth = (balance, amount) => {
-        let width = balance / amount * 100;
-        if (width > 100) {
-            width = 100;
-        }
-        if (width < 0) {
-            width = 0;
-        }
-        return width;
-    }
-
     return (
         <Box
-            marginTop={5}
+            marginTop={[5,5,6,6,6]}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
             justifyContent="space-between"
@@ -96,54 +88,36 @@ const Spending = () => {
                 overflow={'hidden'}>
                 <Flex bg='white' minWidth='max-content' alignItems='center' gap='2'>
                     <Text px='6' py='2' fontSize={'3xl'} fontWeight={800}>
-                        Spending
+                        Expenses
                     </Text>
-                    <Spacer />
                 </Flex>
                 <Box bg={'rgba(256, 256, 256, .85)'} px={6} py={10}>
                     <List spacing={3}>
-                    {spending.map((s) => {
+                    {expenses.map((e) => {
                         return (
-                            <ListItem key={s.id}>
+                            <ListItem key={e.id}>
                                 <Flex my="1" justifyContent="space-between" alignContent="center">
                                     <Box
                                         fontSize="xl"
                                         fontWeight="bold">
-                                        <label htmlFor={s.name}></label>
+                                        <label htmlFor={e.name}></label>
                                         <Button
-                                            id={s.name}
+                                            id={e.name}
                                             width={'25%'}
                                             ml={0}
                                             mr={3}
-                                            bg='black'
-                                            onClick={() => deleteSpending(s.id, s.isExpense)}
+                                            onClick={() => deleteExpense(e.id, e.amount, e.isExpense)}
                                         >
-                                            <MinusIcon color='white'/>
+                                            <MinusIcon />
                                         </Button>
-                                        {s.name}
+                                        {e.name}
                                     </Box>
                                     <Box
                                         fontSize="xl"
                                         fontWeight="bold"
                                         >
-                                        ${s.balance} / {s.amount}
+                                        ${e.amount}
                                     </Box>
-                                </Flex>
-                                <Flex
-                                    width="50%"
-                                    height="20px"
-                                    mx="25%"
-                                    my="2"
-                                    bg='#f2f0f0'
-                                    borderRadius="md"
-                                    >
-                                    <Flex
-                                        // width can be up to 100% based on the balance, if it is 100% then change the color to red
-                                        width={barWidth(s.balance, s.amount) + "%"}
-                                        height="20px"
-                                        borderRadius="md"
-                                        bg={barWidth(s.balance, s.amount) === 100 ? "red.500" : "green.500"}
-                                        />
                                 </Flex>
                                 <Divider/>
                             </ListItem>
@@ -153,7 +127,7 @@ const Spending = () => {
                     <Modal isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
                         <ModalContent mx='3'>
-                            <ModalHeader>Add Spending</ModalHeader>
+                            <ModalHeader>Add Expense</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
                                 <Formik
@@ -241,7 +215,7 @@ const Spending = () => {
                         _focus={{
                         bg: 'black',
                         }}>
-                        Add Spending
+                        Add Expense
                     </Button>
                 </Box>
             </Box>
@@ -249,4 +223,4 @@ const Spending = () => {
     )
 }
 
-export default Spending;
+export default WExpenses;

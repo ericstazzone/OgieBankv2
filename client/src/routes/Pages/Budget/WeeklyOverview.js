@@ -13,7 +13,7 @@ import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {useSelector} from 'react-redux';
 import validation from '../../../constants/validation';
 
-const Overview = () => {
+const WeeklyOverview = () => {
     const userData = useSelector((state) => state.auth.user);
     const monthIncome = validation.getRounded(userData.budget.monthIncome);
     const monthRecurring = validation.getRounded(userData.budget.monthRecurring);
@@ -40,7 +40,7 @@ const Overview = () => {
                 overflow={'hidden'}>
                 <Flex bg='white' minWidth='max-content' alignItems='center' gap='2'>
                     <Text px='6' py='2' fontSize={'3xl'} fontWeight={800}>
-                        {monthNames[d.getMonth()]}
+                        12/29 - 1/5
                     </Text>
                     <Spacer />
                 </Flex>
@@ -49,7 +49,7 @@ const Overview = () => {
                             <ListItem>
                                 <Flex>
                                     <Text fontSize={'xl'} fontWeight={800}>
-                                        Est. Savings:
+                                        Est. Remaining:
                                     </Text>
                                     <Spacer/>
                                     <Text fontSize={'xl'} fontWeight={800}>
@@ -95,4 +95,4 @@ const Overview = () => {
     )
 }
 
-export default Overview;
+export default WeeklyOverview;

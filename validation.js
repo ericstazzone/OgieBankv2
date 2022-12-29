@@ -141,6 +141,10 @@ function checkBool(bool){
     return bool;
 }
 
+function checkPayFrequency(value){
+    return Number(value);
+}
+
 module.exports = {
     checkId,
     checkString,
@@ -158,4 +162,5 @@ module.exports = {
     checkName,
     checkNum,
     checkBool,
+    checkPayFrequency,
 }

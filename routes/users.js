@@ -166,28 +166,6 @@ router
         }
     })
 
-// router
-//     .route('/settings')
-//     .post(async (req, res) => {
-//         if (!req.session.user) {
-//             return res.status(400).json({error: 'User not logged in!'})
-//         }
-//         console.log(req.body)
-//         if (req.body.username) {
-//             try {
-//                 req.body.username = validation.checkUsername(xss(req.body.username))
-//                 const userExists = await userData.getUserByUsername(req.body.username)
-//                 if (!userExists.empty) throw `Error: user with given username already exists`
-//                 const user = await userData.updateUsername(req.session.user.id, xss(req.body.username))
-//                 req.session.user = user
-//                 return res.status(200).json(user)
-//             } catch (e) {
-//                 console.log(e)
-//                 return res.status(400).json({error: e})
-//             }
-//         }
-//     })
-
 router
     .route('/update/:field')
     .post(async (req, res) => {
@@ -206,7 +184,8 @@ router
                 'bankBalance',
                 'credit',
                 'creditBalance',
-                'creditLimit'
+                'creditLimit',
+                'payFrequency',
             ]
             const updateValidations = {
                 firstName: validation.checkName,
@@ -218,8 +197,8 @@ router
                 bankBalance: validation.checkBankBalance,
                 credit: validation.checkName,
                 creditBalance: validation.checkCreditBalance,
-                creditLimit: validation.checkCreditLimit
-
+                creditLimit: validation.checkCreditLimit,
+                payFrequency: validation.checkPayFrequency,
             }
             const updateFunc = {
                 firstName: userData.updateFirstName,
@@ -231,7 +210,8 @@ router
                 bankBalance: userData.updateBankBalance,
                 credit: userData.updateCreditCard,
                 creditBalance: userData.updateCreditBalance,
-                creditLimit: userData.updateCreditLimit
+                creditLimit: userData.updateCreditLimit,
+                payFrequency: userData.updatePayFrequency,
             }
             if (!updateFields.includes(field)) throw `No such field ${field} to update`
             const updateValue = updateValidations[field](xss(req.body.value))
@@ -246,6 +226,7 @@ router
                 const usernameExists = await userData.getUserByUsername(updateValue)
                 if (!usernameExists.empty) throw 'Username already exists - try a different one'
             }
+            console.log('here');
             const user = await updateFunc[field](id, updateValue)
             req.session.user = user
             return res.status(200).json(user)

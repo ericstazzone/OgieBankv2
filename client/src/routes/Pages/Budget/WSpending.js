@@ -29,7 +29,7 @@ import actions from '../../../redux/actions/categories'
 import { MinusIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 
-const Spending = () => {
+const WSpending = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
 
@@ -249,4 +249,4 @@ const Spending = () => {
     )
 }
 
-export default Spending;
+export default WSpending;

@@ -181,6 +181,8 @@ async function createUserByAuth(uid, displayName, email) {
         },
         payInfo: {
             month: -1,
+            isWeekly: 1,
+            amount: 0,
         },
         budget: {
             monthIncome: 0,
@@ -360,6 +362,18 @@ async function updateEmail(id, email) {
     return user
 }
 
+async function updatePayFrequency(id, payFrequency){
+    await getUser(id)
+    console.log(payFrequency);
+    const users = db.collection('users')
+    const updateInfo = await users.doc(id).update({
+        "payInfo.isWeekly": payFrequency,
+    })
+    console.log(updateInfo);
+    const user = await getUser(id);
+    return user;
+}
+
 async function resetMonth(id){
     let currMonth = new Date();
     currMonth = currMonth.getMonth();
@@ -436,6 +450,7 @@ module.exports = {
     updateEmail,
     updateUsername,
     updatePassword,
+    updatePayFrequency,
     // RESET
     resetMonth,
     resetData,

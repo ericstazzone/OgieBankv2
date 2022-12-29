@@ -11,6 +11,7 @@ import FirstNameEditable from "./FirstNameEditable";
 import LastNameEditable from "./LastNameEditable";
 import EmailEditable from "./EmailEditable";
 import UsernameEditable from "./UsernameEditable";
+import PaycheckEditable from "./PaycheckEditable";
 
 
 const Settings = () => {
@@ -24,7 +25,7 @@ const Settings = () => {
                 <Heading as="h1">Settings</Heading>
             </Stack>
             <Box
-            marginTop={{ base: '1', sm: '6' }}
+            marginTop={6}
             marginBottom={{ base: '6', sm: '6' }}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
@@ -61,6 +62,7 @@ const Settings = () => {
                         }
                         <Divider/>
                         <Text fontSize={'2xl'}>Account Info</Text>
+                        <PaycheckEditable />
                         <BankNameEditable />
                         <BankBalanceEditable/>
                         <CreditNameEditable />

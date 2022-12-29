@@ -76,7 +76,7 @@ const Expenses = () => {
 
     return (
         <Box
-            marginTop={5}
+            marginTop={[5,5,6,6,6]}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
             justifyContent="space-between"
@@ -126,7 +126,7 @@ const Expenses = () => {
                     </List>
                     <Modal isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
-                        <ModalContent>
+                        <ModalContent mx='3'>
                             <ModalHeader>Add Expense</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
