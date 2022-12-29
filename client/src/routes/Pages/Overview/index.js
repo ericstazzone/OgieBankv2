@@ -109,7 +109,7 @@ const Overview = () => {
     },[userData])
 
     return (
-        <Container maxW={'7xl'} px={[3,3,12,12,12]} py={[0,0,6,6,6]}>
+        <Container maxW={'7xl'} px={[3,3,12,12,12]} py={[0,0,6,6,6]} overflowY='scroll'>
             <Stack direction={'row'} justifyContent={'space-between'}>
                 <Heading as="h1">Hello {userName}!</Heading>
                 <Button
