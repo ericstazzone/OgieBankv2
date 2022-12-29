@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { Heading, 
     Box, 
     Container, 
@@ -20,7 +20,6 @@ import { Heading,
     Stack,
     ModalFooter,
 } from '@chakra-ui/react'
-
 import Balance from "./Balance";
 import Shortlist from "./Shortlist";
 import { useDispatch, useSelector} from 'react-redux';
@@ -31,7 +30,9 @@ import actions2 from '../../../redux/actions/categories';
 import actions3 from '../../../redux/actions/auth';
 import axios from 'axios';
 import {v4 as uuid} from 'uuid';
-import { QuestionOutlineIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Overview = () => {
     const [startDate, setStartDate] = useState(new Date());
@@ -40,6 +41,7 @@ const Overview = () => {
     const userName = userData.displayName === undefined ? userData.username : userData.displayName;
     const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [calendar, setCalendar] = useState(new Date());
     
     const [category, setCategory] = useState("Deposit");
     const [payment, setPayment] = useState("Bank");
@@ -52,8 +54,21 @@ const Overview = () => {
         setPayment(event.target.value)
     }
 
+    const ExampleCustomInput = React.forwardRef(({ value, onClick }, ref) => (
+        <Button w='100%' justifyContent='left' className="example-custom-input" onClick={onClick} ref={ref}>
+          {value}
+        </Button>
+    ));
+
+    const fixCalendar = (calendar) => {
+        calendar = ((calendar.getMonth() > 8) ? (calendar.getMonth() + 1) : ('0' + (calendar.getMonth() + 1))) + '/' + ((calendar.getDate() > 9) ? calendar.getDate() : ('0' + calendar.getDate())) + '/' + calendar.getFullYear()
+        return calendar;
+    }
+
     const sendValues = async (values) => {
         values.id = uuid();
+        let date = fixCalendar(calendar);
+        values.date = date;
         values.category = category;
         values.payment = payment;
         const reqBody = values;
@@ -62,6 +77,7 @@ const Overview = () => {
         dispatch(actions3.addTransactionUser(values));
         setCategory('Deposit');
         setPayment("Bank");
+        setCalendar(new Date());
         const { data } = await axios.get('/api/user/session');
         dispatch(actions3.updateUser(data));
     }
@@ -98,12 +114,10 @@ const Overview = () => {
                 <Heading as="h1">Hello {userName}!</Heading>
                 <Button
                     onClick={onOpen}
-                    bg={'black'}
-                    color={'white'}
-                    rounded={'md'}
-                    boxShadow={'0 5px 20px 0px black / 43%)'}>
-                    Add Transaction
-                </Button>
+                    bg='black'
+                    color='white'
+                ><AddIcon color="white"/>
+                </Button>   
             </Stack>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
@@ -115,7 +129,6 @@ const Overview = () => {
                         initialValues={{
                             name: "",
                             amount: "",
-                            date: "",
                         }}
                         onSubmit={(values, actions) => {
                             sendValues(values);
@@ -124,7 +137,6 @@ const Overview = () => {
                                 values: {
                                     name: "",
                                     amount: "",
-                                    date: "",
                                 },
                             });
                             onClose();
@@ -173,7 +185,7 @@ const Overview = () => {
                                         <FormErrorMessage>{errors.amount}</FormErrorMessage>
                                     </FormControl>
                                 </HStack>
-                                <FormControl isInvalid={!!errors.date}>
+                                {/* <FormControl isInvalid={!!errors.date}>
                                     <FormLabel my={1} htmlFor="date">Date</FormLabel>
                                     <Field
                                         as={Input}
@@ -200,7 +212,13 @@ const Overview = () => {
                                         }}
                                     />
                                     <FormErrorMessage>{errors.date}</FormErrorMessage>
-                                </FormControl>
+                                </FormControl> */}
+                                <FormLabel my={1} htmlFor="date">Date</FormLabel>
+                                <DatePicker
+                                    selected={calendar}
+                                    onChange={(date) => setCalendar(date)}
+                                    customInput={<ExampleCustomInput />}
+                                />
                                 <FormLabel my={1} htmlFor="category">Category</FormLabel>
                                 <Select
                                     value={category}

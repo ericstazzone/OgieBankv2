@@ -107,7 +107,7 @@ const Shortlist = () => {
 
     return (
         <Box
-            marginTop={5}
+            marginTop={[5,5,6,6,6]}
             display="flex"
             flexDirection={{ base: 'column', sm: 'row' }}
             justifyContent="space-between"
