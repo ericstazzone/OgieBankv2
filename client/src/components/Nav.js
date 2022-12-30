@@ -88,9 +88,8 @@ const MenuLinks = ({ isOpen, loading, handleLogout, handleLogin, isAuth }) => {
                 pt={[4, 4, 0]}
             >
                 { isAuth ? null : <MenuItem to="/register">Register</MenuItem>}
+                { isAuth ? <MenuItem to="/home">Home</MenuItem> : null }
                 { isAuth ? <MenuItem to="/overview">Overview</MenuItem> : null }
-                { isAuth ? <MenuItem to="/budget">Budget</MenuItem> : null }
-                { isAuth ? <MenuItem to="/transactions">Transactions</MenuItem> : null }
                 { isAuth ? <MenuItem to="/settings">Settings</MenuItem> : null }
                 { isAuth ? (
                     <Button

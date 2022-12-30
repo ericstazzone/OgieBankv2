@@ -39,7 +39,7 @@ const authReducer = (state = initialState, action) => {
 
             //update Accounts
             if (payment === "Bank"){
-                if (category === "Deposit") {
+                if (category === "Deposit" || category === "Paycheck") {
                     updatedBalance = updatedBalance + amount;
                 } else {
                     updatedBalance = updatedBalance + (-1)*amount;
@@ -67,10 +67,55 @@ const authReducer = (state = initialState, action) => {
             let currYear = currDate.getFullYear();
             currMonth = Number(currMonth);
             currYear = Number(currYear);
-            console.log(currYear);
+
+            let paydate = userData.payInfo.startDate;
+            if (paydate === "" || paydate === null){
+                userData.payInfo.startDate = date;
+            }
+
+            if (payment === 'Bank' && category === "Paycheck"){
+                userData.payInfo.amount = amount;
+            }
+
+            let isWeekly = userData.payInfo.isWeekly;
+            let weekBool = false;
+            if (isWeekly === 1){
+                let temp = ""
+                if (paydate === "") {
+                    temp = date;
+                } else {
+                    temp = paydate;
+                }
+                let temp1 = new Date(temp);
+                let temp2 = new Date(temp1.getTime() + 7 * 24 * 60 * 60 * 1000);
+                let transactionDate = new Date(date);
+                if (transactionDate >= temp1 && transactionDate < temp2) {
+                    weekBool = true;
+                }
+                //weekly paycheck
+                //get the week range
+                //if in week weekBool true
+            } else {
+                let temp = ""
+                if (paydate === "") {
+                    temp = date;
+                } else {
+                    temp = paydate;
+                }
+                let temp1 = new Date(temp);
+                let temp2 = new Date(temp1.getTime() + 7 * 24 * 60 * 60 * 1000 * 2);
+                let transactionDate = new Date(date);
+                if (transactionDate >= temp1 && transactionDate < temp2) {
+                    weekBool = true;
+                }
+                //bi weekly payeck
+                //get the biweek range
+                //if in biweek weekBool true
+            }
+            console.log(weekBool);
 
             if (month === currMonth && year === currYear) {
-                if (category === "Deposit"){
+                if (category === "Deposit" || category === "Paycheck"){
                     userData.budget.monthIncome = userData.budget.monthIncome + amount;
                 } else {
                     let findSpending = userData.categories.spending.find(object => {return object.name === category});
@@ -101,7 +146,7 @@ const authReducer = (state = initialState, action) => {
 
             //update Accounts
             if (payment2 === "Bank"){
-                if (category2 === "Deposit") {
+                if (category2 === "Deposit" || category2 === "Paycheck") {
                     updatedBalance2 = updatedBalance2 + (-1)*amount2;
                 } else {
                     updatedBalance2 = updatedBalance2 + amount2;
@@ -129,7 +174,7 @@ const authReducer = (state = initialState, action) => {
             currYear2 = Number(currYear2);
 
             if (month2 === currMonth2 && year2 === currYear2){
-                if (category2 === "Deposit"){
+                if (category2 === "Deposit" || category2 === "Paycheck"){
                     userData2.budget.monthIncome = userData2.budget.monthIncome + (-1)*amount2;
                 } else {
                     let findSpending = userData2.categories.spending.find(object => {return object.name === category2});

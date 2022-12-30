@@ -33,7 +33,7 @@ async function addTransaction(id, transactionId, name, amount, date, category, p
 
     //add logic from balance / budget additions for firebase
     if (payment === "Bank"){
-        if (category === "Deposit") {
+        if (category === "Deposit" || category === "Paycheck") {
             updatedBalance = updatedBalance + amount;
         } else {
             updatedBalance = updatedBalance + (-1)*amount;
@@ -67,9 +67,63 @@ async function addTransaction(id, transactionId, name, amount, date, category, p
     currMonth = Number(currMonth);
     currYear = Number(currYear);
 
+    let paydate = userData.payInfo.startDate;
+    if (paydate === "" || paydate === null){
+        let updatedPaydate = await users.doc(id).update({
+            'payInfo.startDate': date,
+        })
+        if (!updatedPaydate) throw 'Could not update startDate';
+    }
+
+    if (payment === 'Bank' && category === "Paycheck"){
+        let updatedPayAmount = await users.doc(id).update({
+            'payInfo.amount': amount,
+        })
+        if (!updatedPayAmount) throw 'Could not update amount';
+    }
+
+    let isWeekly = userData.payInfo.isWeekly;
+    let weekBool = false;
+    if (isWeekly == 1){
+        let temp = ""
+        if (paydate === "") {
+            temp = date;
+        } else {
+            temp = paydate;
+        }
+        let temp1 = new Date(temp);
+        let temp2 = new Date(temp1.getTime() + 7 * 24 * 60 * 60 * 1000);
+        let transactionDate = new Date(date);
+        if (transactionDate >= temp1 && transactionDate < temp2) {
+            weekBool = true;
+        }
+        //weekly paycheck
+        //get the week range
+        //if in week weekBool true
+    } else {
+        let temp = ""
+        if (paydate === "") {
+            temp = date;
+        } else {
+            temp = paydate;
+        }
+        let temp1 = new Date(temp);
+        let temp2 = new Date(temp1.getTime() + 7 * 24 * 60 * 60 * 1000 * 2);
+        let transactionDate = new Date(date);
+        if (transactionDate >= temp1 && transactionDate < temp2) {
+            weekBool = true;
+        }
+        //bi weekly payeck
+        //get the biweek range
+        //if in biweek weekBool true
+    }
+
+    console.log(weekBool);
+
+
     //strip month and compare to current month
     if (month === currMonth && year === currYear) {
-        if (category === "Deposit"){
+        if (category === "Deposit" || category === "Paycheck"){
             let updatedIncome = userData.budget.monthIncome + amount;
             let newIncome = await users.doc(id).update({
                 "budget.monthIncome": updatedIncome,
@@ -139,6 +193,7 @@ async function addCategory(id, categoryId, name, amount, isExpense) {
         if (!newExpense) throw 'Could not update monthly recurring';
     } else {
         temp.balance = 0;
+        temp.weeklyBalance = 0;
         userCategories.spending.push(temp);
     }
 
@@ -211,7 +266,7 @@ async function deleteTransaction(id, transactionId, amount, date, category, paym
     let updatedCreditBalance = userData.accountInfo.creditBalance;
 
     if (payment === "Bank"){
-        if (category === "Deposit") {
+        if (category === "Deposit" || category === "Paycheck") {
             updatedBalance = updatedBalance + (-1)*amount;
         } else {
             updatedBalance = updatedBalance + amount;
@@ -246,7 +301,7 @@ async function deleteTransaction(id, transactionId, amount, date, category, paym
     currYear = Number(currYear);
 
     if (month === currMonth && year === currYear) {
-        if (category === "Deposit"){
+        if (category === "Deposit" || category === "Paycheck"){
             let updatedIncome = userData.budget.monthIncome + (-1)*amount;
             let newIncome = await users.doc(id).update({
                 "budget.monthIncome": updatedIncome,

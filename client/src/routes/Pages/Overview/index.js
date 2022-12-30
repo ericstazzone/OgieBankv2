@@ -203,6 +203,7 @@ const Overview = () => {
                                     {expenses.map((e) => {
                                         return(<option  key={e.name} value={e.name}>{e.name}</option>);
                                     })}
+                                    <option value={'Paycheck'}>Paycheck</option>
                                 </Select>
                                 <FormLabel my={1} htmlFor="payment">Payment</FormLabel>
                                 <Select

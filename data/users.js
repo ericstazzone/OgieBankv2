@@ -142,11 +142,17 @@ async function createUser(firstName, lastName, username, password, email) {
         },
         payInfo: {
             month: -1,
+            isWeekly: 1,
+            amount: 0,
+            startDate: "",
         },
         budget: {
             monthIncome: 0,
             monthRecurring: 0,
             monthVariable: 0,
+            weekIncome: 0,
+            weekRecurring: 0,
+            weekVariable: 0,
         },
         categories: {
             expenses: [],
@@ -183,11 +189,15 @@ async function createUserByAuth(uid, displayName, email) {
             month: -1,
             isWeekly: 1,
             amount: 0,
+            startDate: "",
         },
         budget: {
             monthIncome: 0,
             monthRecurring: 0,
             monthVariable: 0,
+            weekIncome: 0,
+            weekRecurring: 0,
+            weekVariable: 0,
         },
         categories: {
             expenses: [],

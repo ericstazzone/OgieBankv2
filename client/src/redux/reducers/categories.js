@@ -19,6 +19,7 @@ const categoryReducer = (state = initialState, action) => {
       } else {
         let spending = state.categories.spending;
         newCategory.balance = 0;
+        newCategory.weeklyBalance = 0;
         spending.push(newCategory);
         return {...state, categories: {expenses: state.categories.expenses, spending: spending}}
       }
